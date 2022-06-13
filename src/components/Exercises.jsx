@@ -1,11 +1,29 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Pagination, Stack, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 
 import { exerciseOptions, fetchData } from "../utils/fetchData";
 import ExerciseCard from "./ExerciseCard";
 
 export default function Exercises({ setExercise, exercise, bodyPart }) {
-  console.log(exercise);
+  // console.log(exercise);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const exercisesPerPage = 9;
+
+  //1ページに9セクション表示（いまいち理解できない．．．)
+  const indexOfLastExercise = currentPage * exercisesPerPage;
+  const indexOfFirstExercise = indexOfLastExercise - exercisesPerPage;
+  const currentExercise = exercise.slice(
+    indexOfFirstExercise,
+    indexOfLastExercise
+  );
+
+  const paginate = (e, value) => {
+    setCurrentPage(value);
+
+    window.scrollTo({ top: 1800, behavior: "smooth" });
+  };
+
   return (
     <Box id='exercises' sx={{ mt: { lg: "110px" } }} mt='50px' p='20px'>
       <Typography variant='h3' mb='46px'>
@@ -17,9 +35,22 @@ export default function Exercises({ setExercise, exercise, bodyPart }) {
         flexWrap='wrap'
         justifyContent='center'
       >
-        {exercise.map((exercise, index) => (
+        {currentExercise.map((exercise, index) => (
           <ExerciseCard key={index} exercise={exercise} />
         ))}
+      </Stack>
+      <Stack mt='100px' alignItems='center'>
+        {exercise.length > 9 && (
+          <Pagination
+            color='standard'
+            shape='rounded'
+            defaultPage={1}
+            count={Math.ceil(exercise.length / exercisesPerPage)} //切り上げ値を取得
+            page={currentPage}
+            onChange={paginate}
+            size='large'
+          />
+        )}
       </Stack>
     </Box>
   );
