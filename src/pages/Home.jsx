@@ -9,6 +9,8 @@ export default function Home() {
   const [bodyPart, setBodyPart] = useState("all");
   const [exercise, setExercise] = useState([]);
 
+
+  // console.log(bodyPart);
   return (
     <Box>
       <HeroBanner />

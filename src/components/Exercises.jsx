@@ -24,6 +24,28 @@ export default function Exercises({ setExercise, exercise, bodyPart }) {
     window.scrollTo({ top: 1800, behavior: "smooth" });
   };
 
+  useEffect(() => {
+    const fetchExerciseData = async () => {
+      let exercisesData = [];
+
+      // All→全て取得
+      if (bodyPart === "all") {
+        exercisesData = await fetchData(
+          "https://exercisedb.p.rapidapi.com/exercises",
+          exerciseOptions
+        );
+        // 各部位ごとに取得
+      } else {
+        exercisesData = await fetchData(
+          `https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodyPart}`,
+          exerciseOptions
+        );
+      }
+      setExercise(exercisesData);
+    };
+    fetchExerciseData();
+  }, [bodyPart]);
+
   return (
     <Box id='exercises' sx={{ mt: { lg: "110px" } }} mt='50px' p='20px'>
       <Typography variant='h3' mb='46px'>
