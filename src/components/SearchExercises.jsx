@@ -3,9 +3,12 @@ import React, { useState, useEffect } from "react";
 import { exerciseOptions, fetchData } from "../utils/fetchData";
 import HorizontalScrollbar from "./HorizontalScrollbar";
 
-export default function SearchExercises() {
+export default function SearchExercises({
+  setExercise,
+  bodyPart,
+  setBodyPart,
+}) {
   const [search, setSearch] = useState("");
-  const [exercise, setExercise] = useState([]);
   const [bodyParts, setBodyParts] = useState([]);
 
   useEffect(() => {
@@ -90,6 +93,8 @@ export default function SearchExercises() {
         <HorizontalScrollbar
           sx={{ position: "relative", width: "" }}
           data={bodyParts}
+          bodyPart={bodyPart}
+          setBodyPart={setBodyPart}
         />
       </Box>
     </Stack>
